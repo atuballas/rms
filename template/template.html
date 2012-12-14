@@ -1,0 +1,108 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Template File</title>
+<link href="<?php echo FULLURL;?>external/calendar/css/datepicker.css" rel="stylesheet" type="text/css" />
+<link rel="stylesheet" type="text/css" href="<?php echo FULLURL;?>css/style.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo FULLURL;?>css/reset.css" />
+<link rel="stylesheet" type="text/css" href="<?php echo FULLURL;?>js/jquery.jqplot.css" />
+<script type="text/javascript" src="<?php echo FULLURL;?>external/calendar/js/datepicker.js"></script>
+</head>
+
+<body>
+<div id="outer-wrapper">
+	<div id="inner-wrapper">
+    	<div id="topbar">
+        	<div id="logo">
+            	
+            </div>
+            <div id="user">
+            	<div id="user-level1">
+                	<span class="normal-text">Logged in as <u>Administrator</u></span>
+                </div>
+                <div id="user-level2">
+                	<span class="normal-text">
+                    	<div>
+                        	<img src="<?php echo FULLURL;?>images/logout.ico" />
+                        </div>
+                        <div>
+                        	Logout
+                        </div>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="cb"></div>
+        <div id="middlebar">
+        	<div id="leftbar">
+            	<div id="navigation-icon">
+                	<ul>
+                    	<li>
+                        	<img src="<?php echo FULLURL;?>images/gear.ico" />
+                        </li>
+                        <li>
+                        	<img src="<?php echo FULLURL;?>images/users.ico" />
+                        </li>
+						<li>
+                        	<img src="<?php echo FULLURL;?>images/room.ico" />
+                        </li>
+                        <li>
+                        	<img src="<?php echo FULLURL;?>images/admin.ico" />
+                        </li>
+                        <li>
+                        	<img src="<?php echo FULLURL;?>images/setting.ico" />
+                        </li>
+                        <li>
+                        	<img src="<?php echo FULLURL;?>images/report.ico" />
+                        </li>
+                    </ul>
+               	</div>
+            	<div id="navigation">
+                	<ul>
+                    	<li <?php echo ( ( $page == 'dashboard' ) ? 'class="active"': '' )?>>
+                        	<label><a href="?page=dashboard">DASHBOARD</a></label>
+                        </li>
+                        <li <?php echo ( ( $page == 'boarders' ) ? 'class="active"': '' )?>>
+                        	<label><a href="?page=boarders">BOARDERS</a></label>
+                        </li>
+						<li <?php echo ( ( $page == 'rooms' ) ? 'class="active"': '' )?>>
+                        	<label><a href="?page=rooms">ROOMS</a></label>
+                        </li>
+                        <li <?php echo ( ( $page == 'administrators' ) ? 'class="active"': '' )?>>
+                        	<label><a href="?page=administrators">ADMINISTRATORS</a></label>
+                        </li>
+                        <li <?php echo ( ( $page == 'settings' ) ? 'class="active"': '' )?>>
+                        	<label><a href="?page=settings">SETTINGS</a></label>
+                        </li>
+                        <li <?php echo ( ( $page == 'reports' ) ? 'class="active"': '' )?>>
+                        	<label><a href="?page=reports">REPORTS</a></label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div id="rightbar">
+				<?php
+				include( 'template/' . $page . '.php' );
+				?>
+            </div>
+            <div class="cb"></div>
+        </div>
+    </div>
+</div>
+<!--[if lt IE 9]><script language="javascript" type="text/javascript" src="excanvas.js"></script><![endif]-->
+<script language="javascript" type="text/javascript" src="<?php echo FULLURL;?>js/jquery.min.js"></script>
+<script language="javascript" type="text/javascript" src="<?php echo FULLURL;?>js/jquery.jqplot.min.js"></script>
+<script type="text/javascript" src="<?php echo FULLURL;?>js/plugins/jqplot.dateAxisRenderer.min.js"></script>
+<script type="text/javascript" src="<?php echo FULLURL;?>js/plugins/jqplot.canvasTextRenderer.min.js"></script>
+<script type="text/javascript" src="<?php echo FULLURL;?>js/plugins/jqplot.canvasAxisTickRenderer.min.js"></script>
+<script type="text/javascript" src="<?php echo FULLURL;?>js/plugins/jqplot.categoryAxisRenderer.min.js"></script>
+<script type="text/javascript" src="<?php echo FULLURL;?>js/plugins/jqplot.barRenderer.min.js"></script>
+<?php if( $page == 'dashboard' ){ ?>
+<script type="text/javascript" src="<?php echo FULLURL;?>js/scriptgraph.js"></script> 
+<?php } ?>
+<script type="text/javascript" src="<?php echo FULLURL;?>js/classes/validator.js"></script>
+<script type="text/javascript" src="<?php echo FULLURL;?>js/lightbox.js"></script> 
+<script type="text/javascript" src="<?php echo FULLURL;?>js/script.js"></script>
+</body>
+</html>
