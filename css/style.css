@@ -232,6 +232,15 @@ div.block-body table thead tr td{
 	padding:7px 5px;
 	color:#666;
 	border:1px solid #fff;
+	width:360px;
+}
+
+div.block-body table tbody tr td.data-loading{
+	display:none;
+}
+
+div.block-body table tbody tr td.data-loading div.data-loading-level2{
+	margin:4px 0 0 2px;
 }
 
 div.block-body table tbody tr td{
@@ -316,4 +325,18 @@ div.lightbox-content{
 
 div#addboarder-loader div{
 	
+}
+
+#data-pagination-select{
+	width:60px;
+	padding:2px;
+	margin:0 5px 0 0;
+}
+
+.data-pagination-text{
+	margin:5px 5px 0 0px;
+}
+
+div.block-body table tbody tr td#data-pagination{
+	border:none;
 }

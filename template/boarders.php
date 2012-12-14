@@ -25,27 +25,25 @@
 							<td>Status</td>
 							<td>Profession</td>
 							<td>Check-in Date</td>
+							<td>Board Type</td>
 							<td>Board Status</td>
 						</tr>
 					</thead>
+					<tbody class="data-field">
+						<tr>
+							<td colspan="8" class="data-loading" align="center" valign="middle">
+								<div class="data-loading-level1">
+									<img src="<?php echo FULLURL;?>images/loader.gif">
+								</div>	
+								<div class="data-loading-level2">Loading...</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+				<table width="100%">
 					<tbody>
 						<tr>
-							<td>Alvin Mark Tuballas</td>
-							<td>Tuyan Naga</td>
-							<td>09222715266</td>
-							<td>Married</td>
-							<td>Web Developer</td>
-							<td>Dec. 8, 2012</td>
-							<td>Active</td>
-						</tr>
-						<tr>
-							<td>Mary Grace Ravanes</td>
-							<td>Tuyan Naga</td>
-							<td>09222715266</td>
-							<td>Married</td>
-							<td>Housewife</td>
-							<td>Dec. 8, 2012</td>
-							<td>Transient</td>
+							<td align="right" id="data-pagination"></td>
 						</tr>
 					</tbody>
 				</table>
@@ -108,7 +106,7 @@
 								<td>
 									<select name="btype" id="btype">
 										<option value=""></option>
-										<option value="month">Monthly</option>
+										<option value="monthly">Monthly</option>
 										<option value="transient">Transient/Daily</option>
 									</select>
 								</td>
