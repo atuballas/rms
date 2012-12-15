@@ -75,6 +75,48 @@ function insertBoarders(){
 	}
 }
 
+function insertRoom(){
+	$query = '
+				INSERT
+				INTO
+					rms_rooms
+				(
+					room_no,
+					room_description,
+					room_rate,
+					room_max,
+					room_amenities,
+					status,
+					timestamp
+				)
+				VALUES
+				(
+					"'.mysqlSanitizeString( $_POST['room_no'] ).'",
+					"'.mysqlSanitizeString( $_POST['room_description'] ).'",
+					"'.mysqlSanitizeString( $_POST['room_rate'] ).'",
+					"'.mysqlSanitizeString( $_POST['max_occupants'] ).'",
+					"'.mysqlSanitizeString( $_POST['room_amenities'] ).'",
+					"'.mysqlSanitizeString( $_POST['room_status'] ).'",
+					NOW()
+				)
+	         ';
+	$query = mysql_query( $query ) or die( 'Mysql query error: ' . mysql_error() );			   
+	if( $query ){
+		$return = array(
+									'success' => true,
+									'message' => 'db insertion successful'
+								 );
+		echo json_encode( $return );						 
+	}else{
+		$return = array(
+									'success' => false,
+									'message' => mysql_error()
+								 );
+		echo json_encode( $return );		
+	}
+		
+}
+
 function getLatestBoarders(){
 	$total_boarders = 0;
 	$query = '
@@ -89,6 +131,11 @@ function getLatestBoarders(){
 		$total_boarders = $row['totalboarders'];
 	}
 	
+	$start = $_POST['index'];
+	if( $_POST['index'] != 0 ){
+		$start = $_POST['index'] * DATADISPLAYLIMIT;
+	}
+	
 	$query = '
 					SELECT
 						*
@@ -97,7 +144,7 @@ function getLatestBoarders(){
 					ORDER BY
 						id
 					DESC
-					LIMIT '.DATADISPLAYLIMIT.'
+					LIMIT '.$start.','.DATADISPLAYLIMIT.'
 				   ';
 	$query = mysql_query( $query ) or die( 'Mysql query error: ' . mysql_error() );
 	if( $query ){
@@ -128,4 +175,64 @@ function getLatestBoarders(){
 		echo json_encode( $return );		
 	}
 }
+
+function getLatestRooms(){
+	$total_rooms = 0;
+	$query = '
+						SELECT
+							COUNT(*) as totalrooms
+						FROM
+							rms_rooms
+	               ';
+	$query = mysql_query( $query ) or die( 'Mysql query error' . mysql_error() );			   
+	if( $query ){
+		$row = mysql_fetch_assoc( $query );
+		$total_rooms = $row['totalrooms'];
+	}
+	
+	$start = $_POST['index'];
+	if( $_POST['index'] != 0 ){
+		$start = $_POST['index'] * DATADISPLAYLIMIT;
+	}
+	
+	$query = '
+					SELECT
+						*
+					FROM
+						rms_rooms
+					ORDER BY
+						id
+					ASC
+					LIMIT '.$start.','.DATADISPLAYLIMIT.'
+				   ';			   
+	$query = mysql_query( $query ) or die( 'Mysql query error: ' . mysql_error() );
+	if( $query ){
+		$data = array();
+		if( mysql_num_rows( $query ) > 0 ){
+			while( $row = mysql_fetch_assoc( $query ) ){
+				$data[] = $row;
+			}
+			$return = array(
+										'success' => true,
+										'message' => 'data fetch successful',
+										'total_data' => $total_rooms,
+										'data' => $data
+									 );
+			echo json_encode( $return );	
+		}else{
+			$return = array(
+									'success' => false,
+									'message' => 'no data fetched'
+								 );
+			echo json_encode( $return );		
+		}
+	}else{
+		$return = array(
+									'success' => false,
+									'message' => mysql_error()
+								 );
+		echo json_encode( $return );		
+	}
+}
+
 ?>

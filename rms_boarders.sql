@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 3.3.9
+-- version 3.1.1
 -- http://www.phpmyadmin.net
 --
 -- Host: localhost
--- Generation Time: Dec 14, 2012 at 09:50 AM
--- Server version: 5.5.8
--- PHP Version: 5.3.5
+-- Generation Time: Dec 15, 2012 at 03:03 PM
+-- Server version: 5.1.30
+-- PHP Version: 5.2.8
 
 SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
 
@@ -41,12 +41,35 @@ CREATE TABLE IF NOT EXISTS `rms_boarders` (
   PRIMARY KEY (`id`),
   KEY `name` (`name`),
   KEY `room_number` (`room_number`)
-) ENGINE=InnoDB  DEFAULT CHARSET=latin1 AUTO_INCREMENT=3 ;
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 AUTO_INCREMENT=1 ;
 
 --
 -- Dumping data for table `rms_boarders`
 --
 
-INSERT INTO `rms_boarders` (`id`, `name`, `address`, `telephone`, `status`, `profession`, `boarding_type`, `checked_in_date`, `room_number`, `additional_appliances`, `board_status`, `timestamp`) VALUES
-(1, 'Alvin Mark Tuballas', '2064 Tuyan Naga', '0322592264', 'married', 'Web Developer', 'monthly', '2012-12-28 00:00:00', 1, 'television,refrigerator,radio,fan', 0, '2012-12-14 13:51:22'),
-(2, 'Alvin', '2064 Tuyan Naga', '0322592664', 'married', 'Web Developer', 'monthly', '2012-12-26 00:00:00', 1, 'television,refrigerator,radio,fan', 0, '2012-12-14 14:19:11');
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `rms_rooms`
+--
+
+CREATE TABLE IF NOT EXISTS `rms_rooms` (
+  `id` bigint(25) NOT NULL AUTO_INCREMENT,
+  `room_no` bigint(25) NOT NULL,
+  `room_description` text NOT NULL,
+  `room_rate` double NOT NULL,
+  `room_max` tinyint(2) NOT NULL,
+  `room_amenities` text NOT NULL,
+  `status` varchar(20) NOT NULL,
+  `timestamp` datetime NOT NULL,
+  PRIMARY KEY (`id`),
+  KEY `room_no` (`room_no`),
+  KEY `status` (`status`),
+  KEY `room_max` (`room_max`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1 ROW_FORMAT=COMPACT AUTO_INCREMENT=1 ;
+
+--
+-- Dumping data for table `rms_rooms`
+--
+

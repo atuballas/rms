@@ -9,6 +9,6 @@ define( 'MYSQLUSER', 'root' );
 define( 'MYSQLPASS', '' );
 define( 'MYSQLDB', 'rental' );
 
-define( 'DATADISPLAYLIMIT', 10 );
+define( 'DATADISPLAYLIMIT', 5 );
 
 ?>

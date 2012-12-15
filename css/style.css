@@ -252,13 +252,14 @@ div.block-body table tbody tr td{
 
 div.block-body table tbody tr td.table-td-field-info{
 	width:200px;
+	vertical-align:middle;
 }
 
-div#boarders-add{
+div#boarders-add, div#rooms-add{
 	display:none;
 }
 
-div#boarders-body-addinterface table td input[type=text], select{
+div#boarders-body-addinterface table td input[type=text], select, textarea{
 	width:347px;
 	padding:5px;
 	border:1px solid;
@@ -299,12 +300,12 @@ div.block-body table tbody tr td table.addon-appliances tr td{
 	border:none;
 }
 
-div#boarders-body-addinterface table td input[type=text].inputnormal, select.inputnormal{
+div#boarders-body-addinterface table td input[type=text].inputnormal, select.inputnormal, textarea.inputnormal{
 	border:1px solid;
 	border-color:#DDDDDD #AAAAAA #AAAAAA #DDDDDD;
 }
 
-div#boarders-body-addinterface table td input[type=text].inputerror, select.inputerror{
+div#boarders-body-addinterface table td input[type=text].inputerror, select.inputerror, textarea.inputerror{
 	width:347px;
 	padding:5px;
 	border:1px solid;

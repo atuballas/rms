@@ -16,6 +16,12 @@ if( isset( $_POST['ajaxcall'] ) && ! empty( $_POST['ajaxcall'] ) ){
 			case 'getLatestBoarders':
 				getLatestBoarders();
 			break;
+			case 'addroom':
+				insertRoom();
+			break;
+			case 'getLatestRooms':
+				getLatestRooms();
+			break;
 		}
 	}else{
 		return false;

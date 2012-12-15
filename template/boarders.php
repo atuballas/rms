@@ -95,8 +95,8 @@
 									</select>
 								</td>
 							</tr>
-							<tr class="table-td-field-info">
-								<td><span class="input-note">*</span>Profession</td>
+							<tr>
+								<td class="table-td-field-info"><span class="input-note">*</span>Profession</td>
 								<td>
 									<input type="text" name="profession" id="profession">
 								</td>
