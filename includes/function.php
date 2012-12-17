@@ -28,6 +28,11 @@ function insertBoarders(){
 	}
 	$addon_appliances = rtrim( $addon_appliances, ',' );
 	
+	$bstatus = 0;
+	if( strtotime( $ckindate ) <= time() ){
+		$bstatus = 1;
+	}
+	
 	$query = 'INSERT
 					INTO
 						rms_boarders
@@ -55,17 +60,40 @@ function insertBoarders(){
 						"'.$ckindate.'",
 						"'.mysqlSanitizeString( $_POST['rooms'] ).'",
 						"'.$addon_appliances.'",
-						0,
+						"'.$bstatus.'",
 						NOW()
 					)
 				   ';
 	$query = mysql_query( $query ) or die( 'Mysql query error: ' . mysql_error() );			   
 	if( $query ){
-		$return = array(
-									'success' => true,
-									'message' => 'db insertion successful'
-								 );
-		echo json_encode( $return );						 
+	
+		// update room
+		$rstatus = 'occupied';
+		if( $bstatus == 0 ) $rstatus = 'reserved';
+		
+		 
+		$query = '
+						UPDATE
+							rms_rooms
+						SET
+							status="'.$rstatus.'"
+						WHERE
+							room_no = "'.$_POST['rooms'].'"
+		               ';
+		$query = mysql_query( $query ) or die( 'Mysql query error: ' . mysql_error() );			   
+		if( $query ){
+			$return = array(
+										'success' => true,
+										'message' => 'db insertion successful'
+									 );
+			echo json_encode( $return );	
+		}else{
+			$return = array(
+										'success' => false,
+										'message' => mysql_error()
+									 );
+			echo json_encode( $return );	
+		}		 
 	}else{
 		$return = array(
 									'success' => false,
@@ -235,4 +263,74 @@ function getLatestRooms(){
 	}
 }
 
+function getAvailableRooms(){
+	$data = array();
+	$query = '
+						SELECT
+							*
+						FROM
+							rms_rooms
+						WHERE
+							status="vacant"
+				   ';
+	$query = mysql_query( $query ) or die( 'Mysql query error' . mysql_error() );
+	if( $query ){
+		if( mysql_num_rows( $query ) > 0 ){
+			while( $row = mysql_fetch_assoc( $query ) ){
+				$data[] = $row;
+			}
+			return $data;
+		}else{
+			return false;
+		}
+	}else{
+		return false;
+	}
+}
+
+function getAllBoarders(){
+	$data = array();
+	$query = '
+						SELECT
+							*
+						FROM
+							rms_boarders
+				   ';
+	$query = mysql_query( $query ) or die( 'Mysql query error' . mysql_error() );
+	if( $query ){
+		if( mysql_num_rows( $query ) > 0 ){
+			while( $row = mysql_fetch_assoc( $query ) ){
+				$data[] = $row;
+			}
+			return $data;
+		}else{
+			return false;
+		}
+	}else{
+		return false;
+	}
+}
+
+function getAllRooms(){
+	$data = array();
+	$query = '
+						SELECT
+							*
+						FROM
+							rms_rooms
+				   ';
+	$query = mysql_query( $query ) or die( 'Mysql query error' . mysql_error() );
+	if( $query ){
+		if( mysql_num_rows( $query ) > 0 ){
+			while( $row = mysql_fetch_assoc( $query ) ){
+				$data[] = $row;
+			}
+			return $data;
+		}else{
+			return false;
+		}
+	}else{
+		return false;
+	}
+}
 ?>

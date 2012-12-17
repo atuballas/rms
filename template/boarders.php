@@ -9,9 +9,41 @@
 			<div class="boarders-controls block-controls">
 				<div id="boarders-controls-add" onclick="showAddBoardersInterface();">
 					<div class="boarders-controls-add-level1">
-						<img src="<?php echo FULLURL;?>images/add.png">
+						<!--<img src="<?php echo FULLURL;?>images/add.png">-->
 					</div>
-					<div class="boarders-controls-level2">Add a Boarder</div>
+					<div class="boarders-controls-level2">
+						<div></div>
+						Add Boarder
+					</div>
+				</div>
+			</div>
+			<div class="boarders-controls-disabled block-controls">
+				<div id="boarders-controls-add" onclick="">
+					<div class="boarders-controls-add-level1">
+						
+					</div>
+					<div class="boarders-controls-level2">Edit Selected</div>
+				</div>
+			</div>
+			<div class="boarders-controls-disabled block-controls">
+				<div id="boarders-controls-add" onclick="">
+					<div class="boarders-controls-add-level1">
+						
+					</div>
+					<div class="boarders-controls-level2">Delete Selected</div>
+				</div>
+			</div>
+			<div class="boarders-controls-disabled block-controls" id="clear-selection-button">
+				<div id="boarders-controls-add" onclick="clearRowSelection();">
+					<div class="boarders-controls-add-level1">
+						
+					</div>
+					<div class="boarders-controls-level2">Clear Selection</div>
+				</div>
+			</div>
+			<div class="block-controls search-input">
+				<div id="boarders-controls-add">
+					<input type="text" name="search" id="search" value="Search boarder..." defvalue="Search boarder...">
 				</div>
 			</div>
 			<div class="cb"></div>
@@ -27,11 +59,12 @@
 							<td>Check-in Date</td>
 							<td>Board Type</td>
 							<td>Board Status</td>
+							<td>Room No</td>
 						</tr>
 					</thead>
 					<tbody class="data-field">
 						<tr>
-							<td colspan="8" class="data-loading" align="center" valign="middle">
+							<td colspan="9" class="data-loading" align="center" valign="middle">
 								<div class="data-loading-level1">
 									<img src="<?php echo FULLURL;?>images/loader.gif">
 								</div>	
@@ -123,12 +156,27 @@
 								<td class="table-td-field-info"><span class="input-note">*</span>Room No</td>
 								<td>
 									<select name="rooms" id="rooms">
+										<?php
+										global $available_rooms;
+										if( ! empty( $available_rooms ) ){
+										?>
 										<option value=""></option>
-										<option value="1">1</option>
-										<option value="2">2</option>
+										<?php
+											foreach( $available_rooms as $v ){
+										?>	
+											<option value="<?php echo $v['room_no'];?>"><?php echo $v['room_no'];?></option>
+										<?php
+											}
+										}else{
+										?>
+											<option value="">No Available Rooms</option>
+										<?php
+										}
+										?>
 									</select>
 								</td>
 							</tr>
+							<!--
 							<tr>
 								<td  colspan="2" id="room-information">
 									<table>
@@ -156,6 +204,7 @@
 									</table>
 								</td>
 							</tr>
+							-->
 							<tr>
 								<td class="table-td-field-info"><span class="input-note"></span>Additional Appliances</td>
 								<td>

@@ -60,8 +60,8 @@ Validator.prototype.validate = function( field, value, validations ){
 				case 'maxLength':
 					this.maxLength();
 				break;
-				case 'valid':
-					this.valid();
+				case 'pattern':
+					this.pattern();
 				break;
 			}	
 			
@@ -100,6 +100,7 @@ Validator.prototype.minLength = function(){
 	if(this.kvalue!=''){
 		if(this.value.length<this.kvalue){
 			this.result = false;
+			document.getElementById(this.field).className='inputerror';
 		}
 	}else{
 		console.log(this.lang[2]);
@@ -108,7 +109,7 @@ Validator.prototype.minLength = function(){
 }
 
 /*
-Function; minLength()
+Function; maxLength()
 Checks if value of the field passes to a maximum length
 @Param: none
 @Return: boolean(true/false)
@@ -117,6 +118,7 @@ Validator.prototype.maxLength = function(){
 	if(this.kvalue!=''){
 		if(this.value.length>this.kvalue){
 			this.result = false;
+			document.getElementById(this.field).className='inputerror';
 		}
 	}else{
 		console.log(this.lang[3]);
@@ -125,15 +127,16 @@ Validator.prototype.maxLength = function(){
 }
 
 /*
-Function; minLength()
+Function; valid()
 Checks if value of the field is valid based on a regex passed
 @Param: none
 @Return: boolean(true/false)
 */
-Validator.prototype.valid = function(){
+Validator.prototype.pattern = function(){
 	if(this.kvalue!=''){
 		if(! this.kvalue.test(this.value)){
 			this.result=false;
+			document.getElementById(this.field).className='inputerror';
 		}
 	}else{
 		console.log(this.lang[4]);

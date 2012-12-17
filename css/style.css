@@ -1,6 +1,72 @@
 @charset "utf-8";
 /* CSS Document */
 
+img{
+	border:none;
+}
+
+div.logout{
+	width:20px;
+	height:20px;
+	background:url(../images/sprites.png) 85px 0px;
+}
+
+div.search-lens{
+	width:20px;
+	height:20px;
+	background:url(../images/sprites.png) -48px 0px;
+	margin:0 0 0 188px;
+}
+
+div.dashboard{
+	width:20px;
+	height:20px;
+	background:url(../images/sprites.png) 39px 2px;
+	margin:10px 0 0 6px;
+}
+
+div.users{
+	width:20px;
+	height:20px;
+	background:url(../images/sprites.png) -166px 2px;
+	margin:10px 0 0 6px;
+}
+
+div.room{
+	width:20px;
+	height:20px;
+	background:url(../images/sprites.png) -213px 1px;
+	margin:10px 0 0 6px;
+}
+
+div.amenities{
+	width:20px;
+	height:20px;
+	background:url(../images/sprites.png) -22px 40px;
+	margin:10px 0 0 6px;
+}
+
+div.appliances{
+	width:20px;
+	height:20px;
+	background:url(../images/sprites.png) 135px 40px;
+	margin:10px 0 0 6px;
+}
+
+div.setting{
+	width:20px;
+	height:20px;
+	background:url(../images/sprites.png) 111px 19px;
+	margin:10px 0 0 6px;
+}
+
+div.report{
+	width:20px;
+	height:20px;
+	background:url(../images/sprites.png) -46px -229px;
+	margin:10px 0 0 6px;
+}
+
 .cb{
 	clear:both;
 	padding-top:2px;
@@ -58,10 +124,24 @@ div#user-level2{
 	color:#000;
 	margin:12px 17px 0 0;
 	height:12px;
+	width:55px;
 }
 
 div#middlebar div{
 	float:left;
+}
+
+div#middlebar div.search-input{
+	padding:2px;
+	float:right;
+}
+
+input#search{
+	width:200px;
+	color:#ccc;
+	font-style:italic;
+	font-family:Calibri;
+	font-size:12px;
 }
 
 div#middlebar div#leftbar{
@@ -90,13 +170,15 @@ div#middlebar div#leftbar div#navigation ul{
 }
 
 div#middlebar div#leftbar div#navigation ul li{
-	padding:12px 0;
+	padding:0px 0;
 	padding-left:20px;
 	color:#666;
 	font-size:12px;
 	text-align:left;
 	border-bottom:1px solid #fff;
 	background-color:#efefef;
+	height:36px;
+	line-height:3;
 }
 
 div#middlebar div#leftbar div#navigation ul li label{
@@ -110,12 +192,14 @@ div#middlebar div#leftbar div#navigation ul li label a{
 
 div#middlebar div#leftbar div#navigation ul li.active{
 	background-color:#fe883a;
-	padding:12px 0;
+	padding:0px 0;
 	padding-left:20px;
 	color:#fff;
 	font-size:12px;
 	text-align:left;
 	border-bottom:1px solid #fff;
+	height:36px;
+	line-height:3;
 }
 
 div#middlebar div#leftbar div#navigation ul li.active a{
@@ -138,9 +222,10 @@ div#middlebar div#leftbar div#navigation-icon ul{
 
 div#middlebar div#leftbar div#navigation-icon ul li{
 	background-color:#efefef;
-	padding:18px 0;
+	padding:0px 0;
 	border-bottom:1px solid #fff;
 	border-right:1px solid #fff;
+	height:36px;
 }
 
 div#middlebar div#leftbar div#navigation-icon ul li img{
@@ -210,6 +295,17 @@ div.boarders-controls{
 	cursor:pointer;
 	font-family:Calibri;
 	font-size:12px;
+	margin: 0 5px 0 0;
+}
+
+div.boarders-controls-disabled{
+	border:1px solid;
+	border-color:#ddd;
+	padding:5px;
+	font-family:Calibri;
+	font-size:12px;
+	margin: 0 5px 0 0;
+	color:#ccc;
 }
 
 div.boarders-controls-level2{
@@ -233,6 +329,7 @@ div.block-body table thead tr td{
 	color:#666;
 	border:1px solid #fff;
 	width:360px;
+	text-align:center;
 }
 
 div.block-body table tbody tr td.data-loading{
@@ -248,6 +345,7 @@ div.block-body table tbody tr td{
 	padding:7px 5px;
 	border:1px solid #efefef;
 	width:360px;
+	text-align:center;
 }
 
 div.block-body table tbody tr td.table-td-field-info{
@@ -288,6 +386,8 @@ span.input-note{
 
 div#boarders-body-addinterface table td#form-error{
 	display:none;
+	width:560px;
+	border:none;
 }
 
 div#boarders-body-addinterface table td#room-information table tr td a.information-hide{
@@ -340,4 +440,10 @@ div#addboarder-loader div{
 
 div.block-body table tbody tr td#data-pagination{
 	border:none;
+}
+
+div.input-note{
+	margin:5px 0 0 0;
+	color:#a1a1a1;
+	font-size:10px;
 }

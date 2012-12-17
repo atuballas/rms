@@ -9,9 +9,38 @@
 			<div class="boarders-controls block-controls">
 				<div id="boarders-controls-add" onclick="showAddRoomsInterface();">
 					<div class="boarders-controls-add-level1">
-						<img src="<?php echo FULLURL;?>images/add.png">
+						
 					</div>
 					<div class="boarders-controls-level2">Add a Room</div>
+				</div>
+			</div>
+			<div class="boarders-controls-disabled block-controls">
+				<div id="boarders-controls-add" onclick="">
+					<div class="boarders-controls-add-level1">
+						
+					</div>
+					<div class="boarders-controls-level2">Edit Selected</div>
+				</div>
+			</div>
+			<div class="boarders-controls-disabled block-controls">
+				<div id="boarders-controls-add" onclick="">
+					<div class="boarders-controls-add-level1">
+						
+					</div>
+					<div class="boarders-controls-level2">Delete Selected</div>
+				</div>
+			</div>
+			<div class="boarders-controls-disabled block-controls" id="clear-selection-button">
+				<div id="boarders-controls-add" onclick="clearRowSelection();">
+					<div class="boarders-controls-add-level1">
+						
+					</div>
+					<div class="boarders-controls-level2">Clear Selection</div>
+				</div>
+			</div>
+			<div class="block-controls search-input">
+				<div id="boarders-controls-add">
+					<input type="text" name="search" id="search" value="Search room..." defvalue="Search room...">
 				</div>
 			</div>
 			<div class="cb"></div>
@@ -58,28 +87,42 @@
 			</div>
 			<div class="cb"></div>
 			<div id="boarders-body-addinterface" class="block-body">
+				<table>
+					<tr>
+						<td id="form-error" align="center"></td>
+					</tr>
+				</table>
 				<form method="POST" id="add-room-form">
 					<table>
 						<tbody>
 							<tr>
-								<td colspan="2" id="form-error" align="center"></td>
-							</tr>
-							<tr>
 								<td class="table-td-field-info"><span class="input-note">*</span>Room #</td>
 								<td>
 									<input type="text" name="room_no" id="room_no">
+									<br>
+									<div class="input-note">
+										numeric only [0-9], ex. 1
+									</div>
 								</td>
 							</tr>
 							<tr>
 								<td class="table-td-field-info"><span class="input-note">*</span>Room Description</td>
 								<td>
 									<textarea name="room_description" id="room_description"></textarea>
+									<br>
+									<div class="input-note">
+										maximum description is 250 characters and minimum of 50 characters
+									</div>
 								</td>
 							</tr>
 							<tr>
 								<td class="table-td-field-info"><span class="input-note">*</span>Room Rate</td>
 								<td>
 									<input type="text" name="room_rate" id="room_rate">
+									<br>
+									<div class="input-note">
+										numeric only [0-9], ex: 2500
+									</div>
 								</td>
 							</tr>
 							<tr>

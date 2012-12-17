@@ -1,3 +1,6 @@
+<?php
+global $active, $inactive, $evicted, $occupied, $vacant, $reserved, $urepair;
+?>
 <div id="rightbar-level1">
 	<div class="titlebar">
 		Dashboard Information
@@ -8,7 +11,7 @@
 		<div id="dashboard-userblock" class="dashboard-block">
 			<div class="dashboard-block-head">
 				<div>
-					<img src="<?php echo FULLURL;?>images/users.ico" />
+					<img class="users" />
 				</div>
 				<div class="dashboard-block-head-text">
 					BOARDERS INFORMATION
@@ -20,7 +23,7 @@
 						<td class="dashboard-block-body-info">Active</td>
 						<td>
 							<div class="dashboard-block-body-count">
-								4
+								<?php echo count( $active );?>
 							</div>
 						</td>
 					</tr>
@@ -28,7 +31,7 @@
 						<td class="dashboard-block-body-info">Inactive</td>
 						<td>
 							<div class="dashboard-block-body-count">
-								15
+								<?php echo count( $inactive );?>
 							</div>
 						</td>
 					</tr>
@@ -36,23 +39,7 @@
 						<td class="dashboard-block-body-info">Evicted</td>
 						<td>
 							<div class="dashboard-block-body-count">
-								20
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td class="dashboard-block-body-info">Transient</td>
-						<td>
-							<div class="dashboard-block-body-count">
-								40
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td class="dashboard-block-body-info">Overdue</td>
-						<td>
-							<div class="dashboard-block-body-count">
-								40
+								<?php echo count( $evicted );?>
 							</div>
 						</td>
 					</tr>
@@ -63,7 +50,7 @@
 		<div id="dashboard-roomblock" class="dashboard-block">
 			<div class="dashboard-block-head">
 				<div>
-					<img src="<?php echo FULLURL;?>images/room.ico"/>
+					<img class="room" />
 				</div>
 				<div class="dashboard-block-head-text">
 					ROOM INFORMATION
@@ -72,26 +59,10 @@
 			<div class="cb dashboard-block-body">
 				<table width="100%">
 					<tr>
-						<td class="dashboard-block-body-info">Active</td>
+						<td class="dashboard-block-body-info">Occupied</td>
 						<td>
 							<div class="dashboard-block-body-count">
-								4
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td class="dashboard-block-body-info">Vacant</td>
-						<td>
-							<div class="dashboard-block-body-count">
-								15
-							</div>
-						</td>
-					</tr>
-					<tr>
-						<td class="dashboard-block-body-info">Under Repair</td>
-						<td>
-							<div class="dashboard-block-body-count">
-								20
+								<?php echo count( $occupied );?>
 							</div>
 						</td>
 					</tr>
@@ -99,7 +70,23 @@
 						<td class="dashboard-block-body-info">Reserved</td>
 						<td>
 							<div class="dashboard-block-body-count">
-								40
+								<?php echo count( $reserved );?>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="dashboard-block-body-info">Vacant</td>
+						<td>
+							<div class="dashboard-block-body-count">
+								<?php echo count( $vacant );?>
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td class="dashboard-block-body-info">Under Repair</td>
+						<td>
+							<div class="dashboard-block-body-count">
+								<?php echo count( $urepair );?>
 							</div>
 						</td>
 					</tr>

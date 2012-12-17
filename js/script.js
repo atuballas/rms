@@ -24,9 +24,56 @@ $(document).ready(function(){
 				getRooms($('#data-pagination-select').val());
 			break;
 		}
-		
 	});
+	
+	var search_text;
+	$('#search').live('focus',function(){
+		search_text = $(this).attr('defvalue');
+		$(this).css('font-style','normal');
+		$(this).css('color','#000');
+		$(this).val('');
+	});
+	$('#search').live('blur',function(){
+		if($(this).val()==search_text || $(this).val() == '' ){
+			$(this).css('font-style','italic');
+			$(this).css('color','#ccc');
+			$(this).val(search_text);
+		}
+	});
+	toogleTableRows();
 });
+
+function clearRowSelection(){
+	$('tr.data-row').each(function(){
+		$(this).removeAttr('data-row-selected');
+		$(this).children().css('background-color', '#fff');
+		$(this).children().css('color', '#444');
+		$('#clear-selection-button').addClass('boarders-controls-disabled');
+		$('#clear-selection-button').removeClass('boarders-controls');
+	});
+}
+
+function toogleTableRows(){
+	$('tr.data-row').live('click',function(){
+		clearRowSelection();
+		$('#clear-selection-button').removeClass('boarders-controls-disabled');
+		$('#clear-selection-button').addClass('boarders-controls');
+		$(this).children().css('background-color', '#FE883A');
+		$(this).children().css('color', '#fff');
+		$(this).attr('data-row-selected', 'true');
+	});
+	
+	$('tr.data-row').live('mouseover',function(){
+		$(this).children().css('background-color', '#FE883A');
+		$(this).children().css('color', '#fff');
+	});
+	$('tr.data-row').live('mouseout',function(){
+		if($(this).attr('data-row-selected')=== undefined){
+			$(this).children().css('background-color', '#fff');
+			$(this).children().css('color', '#444');
+		}
+	});
+}
 
 function getBoarders(a){
 	$.ajax({
@@ -41,7 +88,7 @@ function getBoarders(a){
 			setPagination(response.total_data,'boarders');
 		}else if(response.success == false){
 			if(response.message=='no data fetched'){
-				$('div#boarders-body tbody.data-field').html('<tr><td colspan="8" align="center">No data fetched</td></tr>');
+				$('div#boarders-body tbody.data-field').html('<tr><td colspan="9" align="center">No data fetched</td></tr>');
 			}
 		}
 		$('#data-pagination-select').val(a);
@@ -82,8 +129,12 @@ function appendData(a,b){
 	var str;
 	switch(b){
 		case 'boarders':
+			var bstatus;
 			for(var i=0; i<a.length;i++){
-				str +=   '<tr>';
+				if( a[i].board_status == 0 ) bstatus = 'Inactive';
+				else if( a[i].board_status == 1 ) bstatus = 'Active';
+				else bstatus = 'Evicted';
+				str +=   '<tr class="data-row">';
 				str +=	'<td>'+a[i].name+'</td>';
 				str +=	'<td>'+a[i].address+'</td>';
 				str +=	'<td>'+a[i].telephone+'</td>';
@@ -91,15 +142,16 @@ function appendData(a,b){
 				str +=	'<td>'+a[i].profession+'</td>';
 				str +=	'<td>'+a[i].checked_in_date+'</td>';
 					str +=	'<td>'+ucfirst(a[i].boarding_type)+'</td>';
-				str +=	'<td>'+( ( a[i].board_status == 1 ) ? 'Active' : 'Inactive' )+'</td>';
+				str +=	'<td>'+bstatus+'</td>';
+				str +=	'<td>'+a[i].room_number+'</td>';
 				str +=   '</tr>';
 			}
 		break;
 		case 'rooms':
 			for(var i=0; i<a.length;i++){
-				str +=   '<tr>';
+				str +=   '<tr class="data-row">';
 				str +=	'<td>'+a[i].room_no+'</td>';
-				str +=	'<td>'+a[i].room_description+'</td>';
+				str +=	'<td>'+ucfirst( a[i].room_description )+'</td>';
 				str +=	'<td>PHP'+a[i].room_rate+'</td>';
 				str +=	'<td>'+a[i].room_max+'</td>';
 				str +=	'<td>'+a[i].room_amenities+'</td>';
@@ -206,9 +258,9 @@ function addRoom(){
 	var target = $('#form-error');
 	
 	var vObject = new Validator();
-	vObject.validate('room_no',$('#room_no').val(),{'required':''});
+	vObject.validate('room_no',$('#room_no').val(),{'required':'', 'pattern':/[0-9]/});
 	vObject.validate('room_description',$('#room_description').val(),{'required':''});
-	vObject.validate('room_rate',$('#room_rate').val(),{'required':''});
+	vObject.validate('room_rate',$('#room_rate').val(),{'required':'', 'pattern':/[0-9]/});
 	vObject.validate('max_occupants',$('#max_occupants').val(),{'required':''});
 	vObject.validate('room_amenities',$('#room_amenities').val(),{'required':''});
 	vObject.validate('room_status',$('#room_status').val(),{'required':''});
