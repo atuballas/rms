@@ -17,7 +17,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="boarders-controls-disabled block-controls">
+			<div class="boarders-controls-disabled block-controls" id="edit-selection-button">
 				<div id="boarders-controls-add" onclick="">
 					<div class="boarders-controls-add-level1">
 						
@@ -25,7 +25,7 @@
 					<div class="boarders-controls-level2">Edit Selected</div>
 				</div>
 			</div>
-			<div class="boarders-controls-disabled block-controls">
+			<div class="boarders-controls-disabled block-controls" id="delete-selection-button">
 				<div id="boarders-controls-add" onclick="">
 					<div class="boarders-controls-add-level1">
 						
@@ -43,7 +43,7 @@
 			</div>
 			<div class="block-controls search-input">
 				<div id="boarders-controls-add">
-					<input type="text" name="search" id="search" value="Search boarder..." defvalue="Search boarder...">
+					<input type="text" name="boarder_search" id="search" value="Search boarder..." defvalue="Search boarder...">
 				</div>
 			</div>
 			<div class="cb"></div>
@@ -86,7 +86,6 @@
 			<div class="boarders-controls block-controls">
 				<div id="boarders-controls-return" onclick="showBoardersData();">
 					<div class="boarders-controls-level1">
-						<img src="<?php echo FULLURL;?>images/back.png">
 					</div>
 					<div class="boarders-controls-level2">Return</div>
 				</div>

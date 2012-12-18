@@ -142,6 +142,8 @@ input#search{
 	font-style:italic;
 	font-family:Calibri;
 	font-size:12px;
+	padding:4px 0;
+	margin:-1px 0 0 0;
 }
 
 div#middlebar div#leftbar{
@@ -345,7 +347,8 @@ div.block-body table tbody tr td{
 	padding:7px 5px;
 	border:1px solid #efefef;
 	width:360px;
-	text-align:center;
+	text-align:left;
+	vertical-align:middle;
 }
 
 div.block-body table tbody tr td.table-td-field-info{

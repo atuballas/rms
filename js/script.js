@@ -41,38 +41,122 @@ $(document).ready(function(){
 		}
 	});
 	toogleTableRows();
+	
+	// search
+	$('#search').live('keyup',function(){
+		if( $(this).attr('name') == 'boarder_search' ){
+			if($(this).val()!=''){
+				$.ajax({
+					type: 'POST',
+					url: 'index.php',
+					data: {ajaxcall:1, ajaxproc:'searchBoarder', index:0, q: $(this).val().toLowerCase()},
+					dataType: 'json'
+				}).done(function(response){
+					if(response.success){
+						$('div#boarders-body tbody.data-field').html(appendData(response.data,'boarders'));
+						setPagination(response.total_data,'boarders');
+					}else if(response.success == false){
+						if(response.message=='no data fetched'){
+							$('div#boarders-body tbody.data-field').html('<tr><td colspan="9" align="center">No data fetched</td></tr>');
+						}
+					}
+				});
+			}else{
+				data = cloned_data;	// return the original content;
+				$('div#boarders-body tbody.data-field').html(appendData(data,'boarders'));
+				setPagination(data.length,'boarders');
+			}
+		}else if( $(this).attr('name') == 'room_search' ){
+			if($(this).val()!=''){
+				$.ajax({
+					type: 'POST',
+					url: 'index.php',
+					data: {ajaxcall:1, ajaxproc:'searchRoom', index:0, q: $(this).val().toLowerCase()},
+					dataType: 'json'
+				}).done(function(response){
+					if(response.success){
+						$('div#boarders-body tbody.data-field').html(appendData(response.data,'rooms'));
+						setPagination(response.total_data,'rooms');
+					}else if(response.success == false){
+						if(response.message=='no data fetched'){
+							$('div#boarders-body tbody.data-field').html('<tr><td colspan="9" align="center">No data fetched</td></tr>');
+						}
+					}
+				});
+			}else{
+				data = cloned_data;	// return the original content;
+				$('div#boarders-body tbody.data-field').html(appendData(data,'rooms'));
+				setPagination(data.length,'rooms');
+			}
+		}
+	});
+	
+	
+	
 });
 
 function clearRowSelection(){
 	$('tr.data-row').each(function(){
-		$(this).removeAttr('data-row-selected');
-		$(this).children().css('background-color', '#fff');
-		$(this).children().css('color', '#444');
-		$('#clear-selection-button').addClass('boarders-controls-disabled');
-		$('#clear-selection-button').removeClass('boarders-controls');
+		setInactiveRowAttr($(this));
+		optionButtonDisable();
 	});
 }
 
 function toogleTableRows(){
 	$('tr.data-row').live('click',function(){
 		clearRowSelection();
-		$('#clear-selection-button').removeClass('boarders-controls-disabled');
-		$('#clear-selection-button').addClass('boarders-controls');
-		$(this).children().css('background-color', '#FE883A');
-		$(this).children().css('color', '#fff');
-		$(this).attr('data-row-selected', 'true');
+		optionButtonEnable();
+		setActiveRowAttr($(this));
 	});
 	
 	$('tr.data-row').live('mouseover',function(){
-		$(this).children().css('background-color', '#FE883A');
-		$(this).children().css('color', '#fff');
+		setActiveRow($(this));
 	});
 	$('tr.data-row').live('mouseout',function(){
-		if($(this).attr('data-row-selected')=== undefined){
-			$(this).children().css('background-color', '#fff');
-			$(this).children().css('color', '#444');
+		if($(this).attr('data-row-selected')===undefined){
+			setInactiveRow($(this));
 		}
 	});
+}
+
+function optionButtonEnable(){
+	$('#edit-selection-button').removeClass('boarders-controls-disabled');
+	$('#edit-selection-button').addClass('boarders-controls');
+	$('#delete-selection-button').removeClass('boarders-controls-disabled');
+	$('#delete-selection-button').addClass('boarders-controls');	
+	$('#clear-selection-button').removeClass('boarders-controls-disabled');
+	$('#clear-selection-button').addClass('boarders-controls');
+}
+
+function optionButtonDisable(){
+	$('#edit-selection-button').addClass('boarders-controls-disabled');
+	$('#edit-selection-button').removeClass('boarders-controls');
+	$('#delete-selection-button').addClass('boarders-controls-disabled');
+	$('#delete-selection-button').removeClass('boarders-controls');
+	$('#clear-selection-button').addClass('boarders-controls-disabled');
+	$('#clear-selection-button').removeClass('boarders-controls');
+}
+
+function setActiveRowAttr(o){
+	o.children().css('background-color', '#FE883A');
+	o.children().css('color', '#fff');
+	o.attr('data-row-selected', 'true');
+}
+
+function setActiveRow(o){
+	o.children().css('background-color', '#FE883A');
+	o.children().css('color', '#fff');
+}
+
+function setInactiveRowAttr(o){
+	o.removeAttr('data-row-selected');
+	o.children().css('background-color', '#fff');
+	o.children().css('color', '#444');
+}
+
+function setInactiveRow(o){
+	o.children().css('background-color', '#fff');
+	o.children().css('color', '#444');
 }
 
 function getBoarders(a){
@@ -84,6 +168,8 @@ function getBoarders(a){
 	}).done(function(response){
 		$('div#boarders-body td.data-loading').hide();
 		if(response.success){
+			data = response.data;
+			cloned_data = data;
 			$('div#boarders-body tbody.data-field').html(appendData(response.data,'boarders'));
 			setPagination(response.total_data,'boarders');
 		}else if(response.success == false){
@@ -104,6 +190,8 @@ function getRooms(a){
 	}).done(function(response){
 		$('div#boarders-body td.data-loading').hide();
 		if(response.success){
+			data = response.data;
+			cloned_data = data;
 			$('div#boarders-body tbody.data-field').html(appendData(response.data,'rooms'));
 			setPagination(response.total_data,'rooms');
 		}else if(response.success == false){

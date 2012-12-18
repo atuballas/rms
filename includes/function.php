@@ -311,6 +311,74 @@ function getAllBoarders(){
 	}
 }
 
+function getSearchedBoarders(){
+	$start = $_POST['index'];
+	if( $_POST['index'] != 0 ){
+		$start = $_POST['index'] * DATADISPLAYLIMIT;
+	}
+	
+	$query = '
+					SELECT
+						*
+					FROM
+						rms_boarders
+					WHERE
+						name REGEXP "'.$_POST['q'].'"
+					ORDER BY
+						id
+					DESC
+					LIMIT '.$start.','.DATADISPLAYLIMIT.'
+				   ';		   
+	$query = mysql_query( $query ) or die( 'Mysql query error: ' . mysql_error() );
+	if( $query ){
+		$data = array();
+		if( mysql_num_rows( $query ) > 0 ){
+			while( $row = mysql_fetch_assoc( $query ) ){
+				$data[] = $row;
+			}
+			return $data;
+		}else{
+			return false;	
+		}
+	}else{
+		return false;
+	}
+}
+
+function getSearchedRooms(){
+	$start = $_POST['index'];
+	if( $_POST['index'] != 0 ){
+		$start = $_POST['index'] * DATADISPLAYLIMIT;
+	}
+	
+	$query = '
+					SELECT
+						*
+					FROM
+						rms_rooms
+					WHERE
+						room_description REGEXP "'.$_POST['q'].'"
+					ORDER BY
+						id
+					DESC
+					LIMIT '.$start.','.DATADISPLAYLIMIT.'
+				   ';		   
+	$query = mysql_query( $query ) or die( 'Mysql query error: ' . mysql_error() );
+	if( $query ){
+		$data = array();
+		if( mysql_num_rows( $query ) > 0 ){
+			while( $row = mysql_fetch_assoc( $query ) ){
+				$data[] = $row;
+			}
+			return $data;
+		}else{
+			return false;	
+		}
+	}else{
+		return false;
+	}
+}
+
 function getAllRooms(){
 	$data = array();
 	$query = '

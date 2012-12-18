@@ -22,6 +22,26 @@ if( isset( $_POST['ajaxcall'] ) && ! empty( $_POST['ajaxcall'] ) ){
 			case 'getLatestRooms':
 				getLatestRooms();
 			break;
+			case 'searchBoarder':
+				$boarders = getSearchedBoarders();
+				$return = array(
+											'success' => ( ( $boarders !== false ) ? true : false ),
+											'message' => 'data fetch successful',
+											'total_data' => ( ( $boarders !== false ) ? count( $boarders ) : 0 ),
+											'data' => $boarders
+										 );
+				echo json_encode( $return );	
+			break;
+			case 'searchRoom':
+				$rooms = getSearchedRooms();
+				$return = array(
+											'success' => ( ( $rooms !== false ) ? true : false ),
+											'message' => 'data fetch successful',
+											'total_data' => ( ( $rooms !== false ) ? count( $rooms ) : 0 ),
+											'data' => $rooms
+										 );
+				echo json_encode( $return );	
+			break;
 		}
 	}else{
 		return false;
