@@ -19,8 +19,20 @@ if( isset( $_POST['ajaxcall'] ) && ! empty( $_POST['ajaxcall'] ) ){
 			case 'addroom':
 				insertRoom();
 			break;
+			case 'addamenity':
+				insertAmenity();
+			break;
+			case 'addappliance':
+				insertAppliance();
+			break;
 			case 'getLatestRooms':
 				getLatestRooms();
+			break;
+			case 'getLatestAmenities':
+				getLatestAmenities();
+			break;
+			case 'getLatestAppliances':
+				getLatestAppliances();
 			break;
 			case 'searchBoarder':
 				$boarders = getSearchedBoarders();
@@ -39,6 +51,26 @@ if( isset( $_POST['ajaxcall'] ) && ! empty( $_POST['ajaxcall'] ) ){
 											'message' => 'data fetch successful',
 											'total_data' => ( ( $rooms !== false ) ? count( $rooms ) : 0 ),
 											'data' => $rooms
+										 );
+				echo json_encode( $return );	
+			break;
+			case 'searchAmenities':
+				$amenities = getSearchedAmenities();
+				$return = array(
+											'success' => ( ( $amenities !== false ) ? true : false ),
+											'message' => 'data fetch successful',
+											'total_data' => ( ( $amenities !== false ) ? count( $amenities ) : 0 ),
+											'data' => $amenities
+										 );
+				echo json_encode( $return );	
+			break;
+			case 'searchAppliances':
+				$appliances = getSearchedAppliances();
+				$return = array(
+											'success' => ( ( $appliances !== false ) ? true : false ),
+											'message' => 'data fetch successful',
+											'total_data' => ( ( $appliances !== false ) ? count( $appliances ) : 0 ),
+											'data' => $appliances
 										 );
 				echo json_encode( $return );	
 			break;

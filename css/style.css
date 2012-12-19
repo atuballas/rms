@@ -137,7 +137,7 @@ div#middlebar div.search-input{
 }
 
 input#search{
-	width:200px;
+	width:195px;
 	color:#ccc;
 	font-style:italic;
 	font-family:Calibri;
@@ -356,7 +356,7 @@ div.block-body table tbody tr td.table-td-field-info{
 	vertical-align:middle;
 }
 
-div#boarders-add, div#rooms-add{
+div#boarders-add, div#rooms-add, div#amenities-add, div#appliances-add{
 	display:none;
 }
 

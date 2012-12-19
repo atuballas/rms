@@ -14,6 +14,14 @@ $(document).ready(function(){
 		$('div#boarders-body td.data-loading').show();
 		getRooms(1);
 	}
+	if($('#amenities-data').length>0){
+		$('div#boarders-body td.data-loading').show();
+		getAmenities(1);
+	}
+	if($('#appliances-data').length>0){
+		$('div#boarders-body td.data-loading').show();
+		getAppliances(1);
+	}
 	$('#data-pagination-select').live('change',function(){
 		var p = $(this).attr('pagination');
 		switch(p){
@@ -22,6 +30,12 @@ $(document).ready(function(){
 			break;
 			case 'rooms':
 				getRooms($('#data-pagination-select').val());
+			break;
+			case 'amenities':
+				getAmenities($('#data-pagination-select').val());
+			break;
+			case 'appliances':
+				getAppliances($('#data-pagination-select').val());
 			break;
 		}
 	});
@@ -87,6 +101,50 @@ $(document).ready(function(){
 				data = cloned_data;	// return the original content;
 				$('div#boarders-body tbody.data-field').html(appendData(data,'rooms'));
 				setPagination(data.length,'rooms');
+			}
+		}else if( $(this).attr('name') == 'amenities_search' ){
+			if($(this).val()!=''){
+				$.ajax({
+					type: 'POST',
+					url: 'index.php',
+					data: {ajaxcall:1, ajaxproc:'searchAmenities', index:0, q: $(this).val().toLowerCase()},
+					dataType: 'json'
+				}).done(function(response){
+					if(response.success){
+						$('div#boarders-body tbody.data-field').html(appendData(response.data,'amenities'));
+						setPagination(response.total_data,'amenities');
+					}else if(response.success == false){
+						if(response.message=='no data fetched'){
+							$('div#boarders-body tbody.data-field').html('<tr><td colspan="9" align="center">No data fetched</td></tr>');
+						}
+					}
+				});
+			}else{
+				data = cloned_data;	// return the original content;
+				$('div#boarders-body tbody.data-field').html(appendData(data,'amenities'));
+				setPagination(data.length,'amenities');
+			}
+		}else if( $(this).attr('name') == 'appliances_search' ){
+			if($(this).val()!=''){
+				$.ajax({
+					type: 'POST',
+					url: 'index.php',
+					data: {ajaxcall:1, ajaxproc:'searchAppliances', index:0, q: $(this).val().toLowerCase()},
+					dataType: 'json'
+				}).done(function(response){
+					if(response.success){
+						$('div#boarders-body tbody.data-field').html(appendData(response.data,'appliances'));
+						setPagination(response.total_data,'appliances');
+					}else if(response.success == false){
+						if(response.message=='no data fetched'){
+							$('div#boarders-body tbody.data-field').html('<tr><td colspan="9" align="center">No data fetched</td></tr>');
+						}
+					}
+				});
+			}else{
+				data = cloned_data;	// return the original content;
+				$('div#boarders-body tbody.data-field').html(appendData(data,'appliances'));
+				setPagination(data.length,'appliances');
 			}
 		}
 	});
@@ -203,6 +261,50 @@ function getRooms(a){
 	});
 }
 
+function getAmenities(a){
+	$.ajax({
+		type: 'POST',
+		url: 'index.php',
+		data: {ajaxcall:1, ajaxproc:'getLatestAmenities', index:(a-1)},
+		dataType: 'json'
+	}).done(function(response){
+		$('div#boarders-body td.data-loading').hide();
+		if(response.success){
+			data = response.data;
+			cloned_data = data;
+			$('div#boarders-body tbody.data-field').html(appendData(response.data,'amenities'));
+			setPagination(response.total_data,'amenities');
+		}else if(response.success == false){
+			if(response.message=='no data fetched'){
+				$('div#boarders-body tbody.data-field').html('<tr><td colspan="3" align="center">No data fetched</td></tr>');
+			}
+		}
+		$('#data-pagination-select').val(a);
+	});
+}
+
+function getAppliances(a){
+	$.ajax({
+		type: 'POST',
+		url: 'index.php',
+		data: {ajaxcall:1, ajaxproc:'getLatestAppliances', index:(a-1)},
+		dataType: 'json'
+	}).done(function(response){
+		$('div#boarders-body td.data-loading').hide();
+		if(response.success){
+			data = response.data;
+			cloned_data = data;
+			$('div#boarders-body tbody.data-field').html(appendData(response.data,'appliances'));
+			setPagination(response.total_data,'appliances');
+		}else if(response.success == false){
+			if(response.message=='no data fetched'){
+				$('div#boarders-body tbody.data-field').html('<tr><td colspan="2" align="center">No data fetched</td></tr>');
+			}
+		}
+		$('#data-pagination-select').val(a);
+	});
+}
+
 function setPagination(a,b){
 	var trows = a;
 	var totalpages = Math.ceil( trows / pagination_limit );
@@ -247,6 +349,23 @@ function appendData(a,b){
 				str +=   '</tr>';
 			}
 		break;
+		case 'amenities':
+			for(var i=0; i<a.length;i++){
+				str +=   '<tr class="data-row">';
+				str +=	'<td>'+a[i].name+'</td>';
+				str +=	'<td>'+ucfirst( a[i].description )+'</td>';
+				str +=	'<td>'+( ( a[i].status == 1 ) ? 'Active' : 'Inactive' )+'</td>';
+				str +=   '</tr>';
+			}
+		break;
+		case 'appliances':
+			for(var i=0; i<a.length;i++){
+				str +=   '<tr class="data-row">';
+				str +=	'<td>'+a[i].name+'</td>';
+				str +=	'<td>'+( ( a[i].status == 1 ) ? 'Active' : 'Inactive' )+'</td>';
+				str +=   '</tr>';
+			}
+		break;
 	}
 	return str;
 }
@@ -263,6 +382,18 @@ function showAddRoomsInterface(){
 	resetForm();
 }
 
+function showAddAmenitiesInterface(){
+	$('#amenities-add').show();
+	$('#amenities-data').hide();
+	resetForm();
+}
+
+function showAddAppliancesInterface(){
+	$('#appliances-add').show();
+	$('#appliances-data').hide();
+	resetForm();
+}
+
 function showBoardersData(){
 	$('#boarders-add').hide();
 	$('#boarders-data').show();
@@ -273,16 +404,21 @@ function showRoomsData(){
 	$('#rooms-data').show();
 }
 
+function showAmenitiesData(){
+	$('#amenities-add').hide();
+	$('#amenities-data').show();
+}
+
 function hideRoomInformation(){
 	$('#room-information').hide();
 }
 
 function resetForm(){
-	$('#add-boader-form input, #add-room-form input, #add-boader-form select, #add-room-form select, #add-room-form textarea').each(function(){
+	$('#add-boader-form input, #add-room-form input, #add-amenity-form input, #add-appliance-form input, #add-boader-form select, #add-room-form select, #add-amenity-form select, #add-appliance-form select, #add-room-form textarea, #add-amenity-form textarea, #add-amenity-appliance textarea' ).each(function(){
 		$(this).removeClass('inputerror');
 		$(this).addClass('inputnormal');
 	});
-	$('#add-boader-form, #add-room-form')[0].reset();
+	$('#add-boader-form, #add-room-form, #add-amenity-form, #add-appliance-form')[0].reset();
 	$('#form-error').html('');
 	$('#form-error').hide();
 }
@@ -365,6 +501,83 @@ function addRoom(){
 			type: 'POST',
 			url: 'index.php',
 			data: $('#add-room-form').serialize(),
+			dataType: 'json'
+		}).done(function(response){
+			hideLightbox();
+			if( response.success ){
+				window.location.reload(true);
+			}
+		});
+	}
+}
+
+function addAmenity(){
+	// take out red border to inputs and selects if there are
+	$('#add-amenity-form input, #add-amenity-form select, #add-amenity-form textarea').each(function(){
+		$(this).removeClass('inputerror');
+		$(this).addClass('inputnormal');
+	});
+	$('#form-error').html('');
+	$('#form-error').hide();
+	
+	var validation = true;
+	var target = $('#form-error');
+	
+	var vObject = new Validator();
+	vObject.validate('amenity_name',$('#amenity_name').val(),{'required':''});
+	vObject.validate('amenity_description',$('#amenity_description').val(),{'required':''});
+	vObject.validate('amenity_status',$('#amenity_status').val(),{'required':''});
+	
+	if(vObject.result==false){
+		validation = false;
+		target.html('An error occured during submission. Please see highlighted fields.');
+		target.css('color','red');
+		target.show();
+	}
+	if(vObject.result){
+		runLightbox('addamenity-loader',100);
+		$.ajax({
+			type: 'POST',
+			url: 'index.php',
+			data: $('#add-amenity-form').serialize(),
+			dataType: 'json'
+		}).done(function(response){
+			hideLightbox();
+			if( response.success ){
+				window.location.reload(true);
+			}
+		});
+	}
+}
+
+function addAppliance(){
+	// take out red border to inputs and selects if there are
+	$('#add-appliance-form input, #add-appliance-form select, #add-appliance-form textarea').each(function(){
+		$(this).removeClass('inputerror');
+		$(this).addClass('inputnormal');
+	});
+	$('#form-error').html('');
+	$('#form-error').hide();
+	
+	var validation = true;
+	var target = $('#form-error');
+	
+	var vObject = new Validator();
+	vObject.validate('appliance_name',$('#appliance_name').val(),{'required':''});
+	vObject.validate('appliance_status',$('#appliance_status').val(),{'required':''});
+	
+	if(vObject.result==false){
+		validation = false;
+		target.html('An error occured during submission. Please see highlighted fields.');
+		target.css('color','red');
+		target.show();
+	}
+	if(vObject.result){
+		runLightbox('addappliance-loader',100);
+		$.ajax({
+			type: 'POST',
+			url: 'index.php',
+			data: $('#add-appliance-form').serialize(),
 			dataType: 'json'
 		}).done(function(response){
 			hideLightbox();

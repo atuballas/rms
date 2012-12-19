@@ -145,6 +145,74 @@ function insertRoom(){
 		
 }
 
+function insertAmenity(){
+	$query = '
+				INSERT
+				INTO
+					rms_amenities
+				(
+					name,
+					description,
+					status,
+					timestamp
+				)
+				VALUES
+				(
+					"'.mysqlSanitizeString( $_POST['amenity_name'] ).'",
+					"'.mysqlSanitizeString( $_POST['amenity_description'] ).'",
+					"'.mysqlSanitizeString( $_POST['amenity_status'] ).'",
+					NOW()
+				)
+	         ';
+	$query = mysql_query( $query ) or die( 'Mysql query error: ' . mysql_error() );			   
+	if( $query ){
+		$return = array(
+									'success' => true,
+									'message' => 'db insertion successful'
+								 );
+		echo json_encode( $return );						 
+	}else{
+		$return = array(
+									'success' => false,
+									'message' => mysql_error()
+								 );
+		echo json_encode( $return );		
+	}
+}
+
+function insertAppliance(){
+	$query = '
+				INSERT
+				INTO
+					rms_appliances
+				(
+					name,
+					status,
+					timestamp
+				)
+				VALUES
+				(
+					"'.mysqlSanitizeString( $_POST['appliance_name'] ).'",
+					"'.mysqlSanitizeString( $_POST['appliance_status'] ).'",
+					NOW()
+				)
+	         ';
+	$query = mysql_query( $query ) or die( 'Mysql query error: ' . mysql_error() );			   
+	if( $query ){
+		$return = array(
+									'success' => true,
+									'message' => 'db insertion successful'
+								 );
+		echo json_encode( $return );						 
+	}else{
+		$return = array(
+									'success' => false,
+									'message' => mysql_error()
+								 );
+		echo json_encode( $return );		
+	}
+}
+
 function getLatestBoarders(){
 	$total_boarders = 0;
 	$query = '
@@ -263,6 +331,124 @@ function getLatestRooms(){
 	}
 }
 
+function getLatestAmenities(){
+	$total_amenities = 0;
+	$query = '
+						SELECT
+							COUNT(*) as totalamenities
+						FROM
+							rms_amenities
+	               ';
+	$query = mysql_query( $query ) or die( 'Mysql query error' . mysql_error() );			   
+	if( $query ){
+		$row = mysql_fetch_assoc( $query );
+		$total_amenities = $row['totalamenities'];
+	}
+	
+	$start = $_POST['index'];
+	if( $_POST['index'] != 0 ){
+		$start = $_POST['index'] * DATADISPLAYLIMIT;
+	}
+	
+	$query = '
+					SELECT
+						*
+					FROM
+						rms_amenities
+					ORDER BY
+						id
+					DESC
+					LIMIT '.$start.','.DATADISPLAYLIMIT.'
+				   ';
+	$query = mysql_query( $query ) or die( 'Mysql query error: ' . mysql_error() );
+	if( $query ){
+		$data = array();
+		if( mysql_num_rows( $query ) > 0 ){
+			while( $row = mysql_fetch_assoc( $query ) ){
+				$data[] = $row;
+			}
+			$return = array(
+										'success' => true,
+										'message' => 'data fetch successful',
+										'total_data' => $total_amenities,
+										'data' => $data
+									 );
+			echo json_encode( $return );	
+		}else{
+			$return = array(
+									'success' => false,
+									'message' => 'no data fetched'
+								 );
+			echo json_encode( $return );		
+		}
+	}else{
+		$return = array(
+									'success' => false,
+									'message' => mysql_error()
+								 );
+		echo json_encode( $return );		
+	}
+}
+
+function getLatestAppliances(){
+	$total_appliances = 0;
+	$query = '
+						SELECT
+							COUNT(*) as totalappliances
+						FROM
+							rms_amenities
+	               ';
+	$query = mysql_query( $query ) or die( 'Mysql query error' . mysql_error() );			   
+	if( $query ){
+		$row = mysql_fetch_assoc( $query );
+		$total_appliances = $row['totalappliances'];
+	}
+	
+	$start = $_POST['index'];
+	if( $_POST['index'] != 0 ){
+		$start = $_POST['index'] * DATADISPLAYLIMIT;
+	}
+	
+	$query = '
+					SELECT
+						*
+					FROM
+						rms_appliances
+					ORDER BY
+						id
+					DESC
+					LIMIT '.$start.','.DATADISPLAYLIMIT.'
+				   ';
+	$query = mysql_query( $query ) or die( 'Mysql query error: ' . mysql_error() );
+	if( $query ){
+		$data = array();
+		if( mysql_num_rows( $query ) > 0 ){
+			while( $row = mysql_fetch_assoc( $query ) ){
+				$data[] = $row;
+			}
+			$return = array(
+										'success' => true,
+										'message' => 'data fetch successful',
+										'total_data' => $total_appliances,
+										'data' => $data
+									 );
+			echo json_encode( $return );	
+		}else{
+			$return = array(
+									'success' => false,
+									'message' => 'no data fetched'
+								 );
+			echo json_encode( $return );		
+		}
+	}else{
+		$return = array(
+									'success' => false,
+									'message' => mysql_error()
+								 );
+		echo json_encode( $return );		
+	}
+}
+
 function getAvailableRooms(){
 	$data = array();
 	$query = '
@@ -358,6 +544,74 @@ function getSearchedRooms(){
 						rms_rooms
 					WHERE
 						room_description REGEXP "'.$_POST['q'].'"
+					ORDER BY
+						id
+					DESC
+					LIMIT '.$start.','.DATADISPLAYLIMIT.'
+				   ';		   
+	$query = mysql_query( $query ) or die( 'Mysql query error: ' . mysql_error() );
+	if( $query ){
+		$data = array();
+		if( mysql_num_rows( $query ) > 0 ){
+			while( $row = mysql_fetch_assoc( $query ) ){
+				$data[] = $row;
+			}
+			return $data;
+		}else{
+			return false;	
+		}
+	}else{
+		return false;
+	}
+}
+
+function getSearchedAmenities(){
+	$start = $_POST['index'];
+	if( $_POST['index'] != 0 ){
+		$start = $_POST['index'] * DATADISPLAYLIMIT;
+	}
+	
+	$query = '
+					SELECT
+						*
+					FROM
+						rms_amenities
+					WHERE
+						name REGEXP "'.$_POST['q'].'"
+					ORDER BY
+						id
+					DESC
+					LIMIT '.$start.','.DATADISPLAYLIMIT.'
+				   ';		   
+	$query = mysql_query( $query ) or die( 'Mysql query error: ' . mysql_error() );
+	if( $query ){
+		$data = array();
+		if( mysql_num_rows( $query ) > 0 ){
+			while( $row = mysql_fetch_assoc( $query ) ){
+				$data[] = $row;
+			}
+			return $data;
+		}else{
+			return false;	
+		}
+	}else{
+		return false;
+	}
+}
+
+function getSearchedAppliances(){
+	$start = $_POST['index'];
+	if( $_POST['index'] != 0 ){
+		$start = $_POST['index'] * DATADISPLAYLIMIT;
+	}
+	
+	$query = '
+					SELECT
+						*
+					FROM
+						rms_appliances
+					WHERE
+						name REGEXP "'.$_POST['q'].'"
 					ORDER BY
 						id
 					DESC
